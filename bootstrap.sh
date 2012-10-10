@@ -1,7 +1,55 @@
 #!/bin/bash
 COOKBOOKS_URL="http://dl.dropbox.com/u/211124/cookbooks.tgz"
 
+# An easy way to prompt for stuff
+# Usage: prompt_with_default <prompt text> <default value>
+function prompt_with_default() {
+  prompt_text=$1
+  default_value=$2
+
+  read -p "${prompt_text} [${default_value}] " input_value
+
+  if [ "${input_value}" == "" ]; then
+    echo ${default_value}
+  else
+    echo ${input_value}
+  fi
+}
+
+cat <<EOF
+Welcome to strap!
+
+We're going to need to run some stuff as root, so the first thing we're going
+to do is tell sudo not require a password. For that, we're going to need your
+password...
+
+EOF
+
 # Configure password-less sudo
+sudo sed -i -e 's/%admin	ALL=(ALL) ALL/%admin	ALL=(ALL) NOPASSWD: ALL/' /etc/sudoers
+
+if ! sudo -l | grep -q NOPASSWD; then
+  echo "Hmm... our attempt to make sudo passwordless seems to have failed :("
+  exit 1
+fi
+
+cat <<EOF
+Now, just a few questions...
+
+EOF
+
+# Prompt for hostname
+STRAP_HOSTNAME=$(prompt_with_default "Hostname?" "$(hostname -s)")
+
+exit
+
+# Set hostname
+sudo scutil --set HostName ${STRAP_HOSTNAME}.local
+sudo scutil --set ComputerName ${STRAP_HOSTNAME}
+sudo scutil --set LocalHostName ${STRAP_HOSTNAME}
+
+# Update OS X
+sudo softwareupdate -i -a
 
 # Install chef
 curl -L http://www.opscode.com/chef/install.sh | sudo bash
