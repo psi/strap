@@ -63,3 +63,10 @@ task :bundle_cookbook, :cookbook do |t, args|
 
   FileUtils.rm_rf temp_dir
 end
+
+desc "Bundle cookbooks"
+task :bundle_cookbooks do
+  sh "berks install --path=cookbooks"
+  sh "tar zcvf /Volumes/Data/Dropbox/Public/cookbooks.tgz ./cookbooks"
+  sh "rm -rf ./cookbooks"
+end

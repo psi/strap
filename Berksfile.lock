@@ -1,0 +1,2 @@
+cookbook 'xcode_command_line_tools', :path => '/Users/jd/src/cookbooks/xcode_command_line_tools'
+cookbook 'dmg', :locked_version => '1.0.0'
