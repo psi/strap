@@ -1,4 +1,3 @@
-cookbook "xcode_command_line_tools", path: "~/src/cookbooks/xcode_command_line_tools"
-cookbook "dmg", "0.7.0", path: "~/src/cookbooks/dmg"
+cookbook "xcode_command_line_tools", git: "https://github.com/psi/chef-xcode-command-line-tools.git"
 
 cookbook "homebrew"
