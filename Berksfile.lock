@@ -1,3 +1,3 @@
-cookbook 'xcode_command_line_tools', :git => 'https://github.com/psi/chef-xcode-command-line-tools.git', :ref => 'e880809d1a916d4a830ba0aa9fc4d5f60d9f17d1'
+cookbook 'xcode_command_line_tools', :path => '/Users/jd/src/cookbooks/xcode_command_line_tools'
 cookbook 'homebrew', :locked_version => '1.3.0'
 cookbook 'dmg', :locked_version => '1.0.0'
