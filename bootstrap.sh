@@ -1,4 +1,5 @@
 #!/bin/bash
+COOKBOOKS_URL="http://dl.dropbox.com/u/211124/cookbooks.tgz"
 
 # Configure password-less sudo
 
@@ -22,5 +23,9 @@ file_backup_path "#{base_dir}/backup"
 cache_options :path => "#{base_dir}/cache/checksums", :skip_expires => true
 EOF
 
+# Pave the way for homebrew
+sudo mkdir /usr/local
+sudo chown -R `whoami`:staff /usr/local
+
 # Run chef
-chef-solo -c ~/.chef/solo.rb -r http://dl.dropbox.com/u/211124/cookbooks.tgz -o "recipe[xcode_command_line_tools]" -l debug
+chef-solo -c ~/.chef/solo.rb -r ${COOKBOOKS_URL} -o "recipe[xcode_command_line_tools],recipe[homebrew]"
