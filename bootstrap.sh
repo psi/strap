@@ -55,7 +55,7 @@ sudo softwareupdate -i -a
 curl -L http://www.opscode.com/chef/install.sh | sudo bash
 
 # Configure chef
-mkdir -p ${HOME}/.chef
+mkdir -p ${HOME}/.chef/{roles,cookbooks,checksum,cache,cache/checksums}
 
 cat <<EOF > ${HOME}/.chef/solo.rb
 base_dir = File.dirname(__FILE__)
