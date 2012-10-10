@@ -15,6 +15,7 @@ base_dir = File.dirname(__FILE__)
 log_level    :info
 log_location STDOUT
 
+role_path        "#{base_dir}/roles"
 cookbook_path    "#{base_dir}/cookbooks"
 checksum_path    "#{base_dir}/checksum"
 file_cache_path  "#{base_dir}/cache"

@@ -67,6 +67,6 @@ end
 desc "Bundle cookbooks"
 task :bundle_cookbooks do
   sh "berks install --path=cookbooks"
-  sh "tar zcvf /Volumes/Data/Dropbox/Public/cookbooks.tgz ./cookbooks"
+  sh "tar zcvf /Volumes/Data/Dropbox/Public/cookbooks.tgz ./cookbooks ./roles"
   sh "rm -rf ./cookbooks"
 end
