@@ -17,6 +17,7 @@ function prompt_with_default() {
 }
 
 cat <<EOF
+
 Welcome to strap!
 
 We're going to need to run some stuff as root, so the first thing we're going
@@ -34,14 +35,13 @@ if ! sudo -l | grep -q NOPASSWD; then
 fi
 
 cat <<EOF
+
 Now, just a few questions...
 
 EOF
 
 # Prompt for hostname
 STRAP_HOSTNAME=$(prompt_with_default "Hostname?" "$(hostname -s)")
-
-exit
 
 # Set hostname
 sudo scutil --set HostName ${STRAP_HOSTNAME}.local
