@@ -6,7 +6,7 @@
 curl -L http://www.opscode.com/chef/install.sh | sudo bash
 
 # Configure chef
-mkdir ${HOME}/.chef
+mkdir -p ${HOME}/.chef
 
 cat <<EOF > ${HOME}/.chef/solo.rb
 base_dir = File.dirname(__FILE__)
