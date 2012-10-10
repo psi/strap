@@ -77,4 +77,4 @@ sudo mkdir /usr/local
 sudo chown -R `whoami`:staff /usr/local
 
 # Run chef
-chef-solo -c ~/.chef/solo.rb -r ${COOKBOOKS_URL} -o "recipe[xcode_command_line_tools],recipe[homebrew]"
+chef-solo -c ~/.chef/solo.rb -r ${COOKBOOKS_URL} -o "role[workstation]"
