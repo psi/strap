@@ -77,8 +77,20 @@ VMX_FILE="#{ENV['HOME']}/Documents/Virtual Machines.localized/#{VM_NAME}.vmwarev
 
 namespace :vm do
   desc "Reset VM"
-  task :reset do
+  task :reset => [:stop, :rollback, :start]
+
+  desc "Rollback VM"
+  task :rollback do
     sh "#{VMRUN_CMD} revertToSnapshot '#{VMX_FILE}' strap-baseline"
+  end
+
+  desc "Start VM"
+  task :start do
     sh "#{VMRUN_CMD} start '#{VMX_FILE}'"
+  end
+
+  desc "Shutdown VM"
+  task :shutdown do
+    sh "#{VMRUN_CMD} stop '#{VMX_FILE}'"
   end
 end
