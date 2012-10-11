@@ -1,5 +1,7 @@
 #!/bin/bash
 COOKBOOKS_URL="http://dl.dropbox.com/u/211124/cookbooks.tgz"
+CACHE_ROOT="/Volumes/VMware Shared Folders"
+CHEF_BASEDIR="${HOME}/.chef"
 
 # An easy way to prompt for stuff
 # Usage: prompt_with_default <prompt text> <default value>
@@ -54,18 +56,21 @@ sudo softwareupdate -i -a
 # Install chef
 curl -L http://www.opscode.com/chef/install.sh | sudo bash
 
-mkdir -p ${HOME}/.chef
+mkdir -p ${CHEF_BASEDIR}
 
-# If we're running in VMware, symlink shared folders
-CACHE_ROOT="/Volumes/VMware Shared Folders"
+# If we have cached directories, symlink them in
 if [ -d "${CACHE_ROOT}" ]; then
-  ln -s "${CACHE_ROOT}/cookbooks" ${HOME}/.chef/cookbooks
-  ln -s "${CACHE_ROOT}roles" ${HOME}/.chef/roles
-  ln -s "${CACHE_ROOT}cache" ${HOME}/.chef/cache
+  ln -s "${CACHE_ROOT}/cookbooks" ${CHEF_BASEDIR}/cookbooks
+  ln -s "${CACHE_ROOT}/roles" ${CHEF_BASEDIR}/roles
+  ln -s "${CACHE_ROOT}/cache" ${CHEF_BASEDIR}/cache
 fi
 
 # Configure chef
-mkdir -p ${HOME}/.chef/{roles,cookbooks,checksum,cache,cache/checksums}
+for dir in roles cookbooks checksum cache cache/checksums; do
+  if [ ! -e ${CHEF_BASEDIR}/${dir} ]; then
+    mkdir -p ${CHEF_BASEDIR}/${dir}
+  fi
+done
 
 cat <<EOF > ${HOME}/.chef/solo.rb
 base_dir = File.dirname(__FILE__)
