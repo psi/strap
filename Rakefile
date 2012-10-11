@@ -77,7 +77,7 @@ VMX_FILE="#{ENV['HOME']}/Documents/Virtual Machines.localized/#{VM_NAME}.vmwarev
 
 namespace :vm do
   desc "Reset VM"
-  task :reset => [:stop, :rollback, :start]
+  task :reset => [:shutdown, :rollback, :start]
 
   desc "Rollback VM"
   task :rollback do
@@ -92,5 +92,17 @@ namespace :vm do
   desc "Shutdown VM"
   task :shutdown do
     sh "#{VMRUN_CMD} stop '#{VMX_FILE}'"
+  end
+
+  desc "Bootstrap VM"
+  task :bootstrap => :reset do
+    sh "ssh -t strap 'curl -O https://raw.github.com/psi/strap/master/bootstrap.sh && bash bootstrap.sh'"
+  end
+  
+  COOKBOOKS_URL="http://dl.dropbox.com/u/211124/cookbooks.tgz"
+
+  desc "Provision VM"
+  task :provision do
+    sh "ssh -t strap 'chef-solo -c ~/.chef/solo.rb -r #{COOKBOOKS_URL} -o \'role[workstation\''"
   end
 end
