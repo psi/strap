@@ -66,9 +66,9 @@ end
 
 desc "Bundle cookbooks"
 task :bundle_cookbooks do
+  sh "rm -rf cookbooks"
   sh "berks install --path=cookbooks"
   sh "tar zcvf /Volumes/Data/Dropbox/Public/cookbooks.tgz ./cookbooks ./roles"
-  sh "rm -rf ./cookbooks"
 end
 
 VMRUN_CMD="'/Applications/VMware\ Fusion.app/Contents/Library/vmrun' -T fusion"
@@ -95,14 +95,14 @@ namespace :vm do
   end
 
   desc "Bootstrap VM"
-  task :bootstrap => :reset do
+  task :bootstrap => [:bundle_cookbooks, :reset] do
     sh "ssh -t strap 'curl -O https://raw.github.com/psi/strap/master/bootstrap.sh && bash bootstrap.sh'"
   end
   
   COOKBOOKS_URL="http://dl.dropbox.com/u/211124/cookbooks.tgz"
 
   desc "Provision VM"
-  task :provision do
-    sh "ssh -t strap 'chef-solo -c ~/.chef/solo.rb -r #{COOKBOOKS_URL} -o \'role[workstation\''"
+  task :provision => :bundle_cookbooks do
+    sh "ssh -t strap 'chef-solo -c ~/.chef/solo.rb -r #{COOKBOOKS_URL} -o \'role[workstation]\''"
   end
 end
