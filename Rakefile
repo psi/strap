@@ -70,3 +70,15 @@ task :bundle_cookbooks do
   sh "tar zcvf /Volumes/Data/Dropbox/Public/cookbooks.tgz ./cookbooks ./roles"
   sh "rm -rf ./cookbooks"
 end
+
+VMRUN_CMD="'/Applications/VMware\ Fusion.app/Contents/Library/vmrun' -T fusion"
+VM_NAME="OS X 10.8"
+VMX_FILE="#{ENV['HOME']}/Documents/Virtual Machines.localized/#{VM_NAME}.vmwarevm/#{VM_NAME}.vmx"
+
+namespace :vm do
+  desc "Reset VM"
+  task :reset do
+    sh "#{VMRUN_CMD} revertToSnapshot '#{VMX_FILE}' strap-baseline"
+    sh "#{VMRUN_CMD} start '#{VMX_FILE}'"
+  end
+end
