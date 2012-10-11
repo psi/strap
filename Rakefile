@@ -66,7 +66,7 @@ end
 
 desc "Bundle cookbooks"
 task :bundle_cookbooks do
-  sh "rm -rf cookbooks"
+  sh "rm -rf cookbooks/*"
   sh "berks install --path=cookbooks"
   sh "tar zcvf /Volumes/Data/Dropbox/Public/cookbooks.tgz ./cookbooks ./roles"
 end
@@ -77,7 +77,7 @@ VMX_FILE="#{ENV['HOME']}/Documents/Virtual Machines.localized/#{VM_NAME}.vmwarev
 
 namespace :vm do
   desc "Reset VM"
-  task :reset => [:shutdown, :rollback, :start]
+  task :reset => [:rollback, :start]
 
   desc "Rollback VM"
   task :rollback do
@@ -96,7 +96,8 @@ namespace :vm do
 
   desc "Bootstrap VM"
   task :bootstrap => [:bundle_cookbooks, :reset] do
-    sh "ssh -t strap 'curl -O https://raw.github.com/psi/strap/master/bootstrap.sh && bash bootstrap.sh'"
+    sh "scp bootstrap.sh strap:."
+    sh "ssh -t strap 'bash bootstrap.sh'"
   end
   
   COOKBOOKS_URL="http://dl.dropbox.com/u/211124/cookbooks.tgz"
