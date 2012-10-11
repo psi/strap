@@ -54,6 +54,16 @@ sudo softwareupdate -i -a
 # Install chef
 curl -L http://www.opscode.com/chef/install.sh | sudo bash
 
+mkdir -p ${HOME}/.chef
+
+# If we're running in VMware, symlink shared folders
+CACHE_ROOT="/Volumes/VMware Shared Folders"
+if [ -d "${CACHE_ROOT}" ]; then
+  ln -s "${CACHE_ROOT}/cookbooks" ${HOME}/.chef/cookbooks
+  ln -s "${CACHE_ROOT}roles" ${HOME}/.chef/roles
+  ln -s "${CACHE_ROOT}cache" ${HOME}/.chef/cache
+fi
+
 # Configure chef
 mkdir -p ${HOME}/.chef/{roles,cookbooks,checksum,cache,cache/checksums}
 
@@ -77,4 +87,4 @@ sudo mkdir /usr/local
 sudo chown -R `whoami`:staff /usr/local
 
 # Run chef
-chef-solo -c ~/.chef/solo.rb -r ${COOKBOOKS_URL} -o "role[workstation]"
+chef-solo -c ~/.chef/solo.rb -o "role[workstation]"
