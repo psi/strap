@@ -86,7 +86,7 @@ namespace :vm do
 
   desc "Start VM"
   task :start do
-    sh "#{VMRUN_CMD} start '#{VMX_FILE}'"
+    sh "#{VMRUN_CMD} start '#{VMX_FILE}' && sleep 2"
   end
 
   desc "Shutdown VM"
