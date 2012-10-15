@@ -55,6 +55,7 @@ sudo softwareupdate -i -a
 
 # Install chef
 curl -L http://www.opscode.com/chef/install.sh | sudo bash
+sudo chown -R `whoami`:staff /opt/chef
 
 mkdir -p ${CHEF_BASEDIR}
 
@@ -89,7 +90,7 @@ EOF
 
 # Pave the way for homebrew
 sudo mkdir /usr/local
-sudo chown -R `whoami`:staff /usr/local
+sudo chown -R `whoami`:staff /usr/local /Library/{Ruby,Perl,Python}
 
 # Run chef
 chef-solo -c ~/.chef/solo.rb -o "role[workstation]"
