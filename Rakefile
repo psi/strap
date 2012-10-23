@@ -92,7 +92,12 @@ namespace :vm do
   desc "Revert VM to last snapshot"
   task :revert_to_last do
     last_snapshot = `fission snapshot list '#{VM_NAME}' | tail -n 1`.chomp
-    rollback_vm(last_snapshot)
+    revert_vm(last_snapshot)
+  end
+
+  desc "Take a snapshot of the VM"
+  task :snapshot do
+    sh "fission snapshot create '#{VM_NAME}' $(date +'%Y%m%d%H%M')"
   end
 
   desc "Start VM"
