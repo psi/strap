@@ -71,7 +71,7 @@ task :bundle_cookbooks do
   sh "tar zcvf /Volumes/Data/Dropbox/Public/cookbooks.tgz ./cookbooks ./roles"
 end
 
-VM_NAME="OS X 10.8"
+VM_NAME="Mac OS X 10.8 64-bit"
 
 def revert_vm(snapshot_name)
   sh "fission snapshot revert '#{VM_NAME}' '#{snapshot_name}'"
