@@ -44,11 +44,28 @@ EOF
 
 # Prompt for hostname
 STRAP_HOSTNAME=$(prompt_with_default "Hostname?" "$(hostname -s)")
+STRAP_GH_USER=$(prompt_with_default "GitHub User?" $(whoami))
+STRAP_GH_PASSWORD=$(prompt_with_default "GitHub Password?" "")
 
 # Set hostname
 sudo scutil --set HostName ${STRAP_HOSTNAME}.local
 sudo scutil --set ComputerName ${STRAP_HOSTNAME}
 sudo scutil --set LocalHostName ${STRAP_HOSTNAME}
+
+# Generate an SSH key
+cat <<EOF
+
+Now we need to generate an SSH key for this machine. To do this you'll need to
+enter a passphrase when prompted below...
+
+EOF
+
+ssh-keygen -f ~/.ssh/id_rsa -t rsa
+
+payload="{\"title\":\"strap-$(hostname -s)\",\"key\":\"$(cat ~/.ssh/id_rsa.pub)\"}"
+curl -u "${STRAP_GH_USER}:${STRAP_GH_PASSWORD}" -X POST -d "${payload}" https://api.github.com/user/keys
+
+ssh -T git@github.com
 
 # Update OS X
 sudo softwareupdate -i -a
