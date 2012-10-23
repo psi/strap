@@ -11,4 +11,6 @@ cookbook "xquartz",
 
 cookbook "rvm",
   path: "~/src/cookbooks/rvm"
-  #git: "git://github.com/fnichol/chef-rvm.git"
+
+cookbook "apps",
+  path: "~/src/cookbooks/apps"
