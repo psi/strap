@@ -112,8 +112,19 @@ namespace :vm do
 
   desc "Bootstrap VM"
   task :bootstrap => [:baseline, :bundle_cookbooks] do
-    sh "scp bootstrap.sh strap:."
-    sh "ssh -t strap 'bash bootstrap.sh'"
+    sh "scp bootstrap.sh strap:"
+
+    if ENV['SSH']
+      sh "ssh -t strap 'bash bootstrap.sh'"
+    else
+      puts <<-EOF
+
+      In a Terminal in the VM, run:
+
+        bash bootstrap.sh
+
+      EOF
+    end
   end
 
   desc "Provision VM"
