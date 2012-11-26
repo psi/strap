@@ -25,7 +25,7 @@ override_attributes(
   "rvm" => {
     "user_installs" => [
       {
-        "user"         => "jd",
+        "user"         => `whoami`.chomp,
         "default_ruby" => "",
         "rubies"       => ["1.9.3", "ree"]
       }
