@@ -121,4 +121,4 @@ sudo mkdir /usr/local
 sudo chown -R `whoami`:staff /usr/local /Library/{Ruby,Perl,Python}
 
 # Run chef
-chef-solo -c ${HOME}/.chef/solo.rb -o "role[workstation]"
+chef-solo -c ${HOME}/.chef/solo.rb -r ${COOKBOOKS_URL} -o "role[workstation]"
