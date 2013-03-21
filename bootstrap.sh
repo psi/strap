@@ -82,17 +82,17 @@ ssh -T git@github.com
 sudo softwareupdate -i -a
 
 # Install chef
-curl -L http://www.opscode.com/chef/install.sh | sudo bash
+curl -L http://www.opscode.com/chef/install.sh | sudo bash -s -- -v 10.24.0
 sudo chown -R `whoami`:staff /opt/chef
 
 mkdir -p ${CHEF_BASEDIR}
 
 # If we have cached directories, symlink them in
-if [ -d "${CACHE_ROOT}" ]; then
-  ln -s "${CACHE_ROOT}/cookbooks" ${CHEF_BASEDIR}/cookbooks
-  ln -s "${CACHE_ROOT}/roles" ${CHEF_BASEDIR}/roles
-  ln -s "${CACHE_ROOT}/cache" ${CHEF_BASEDIR}/cache
-fi
+#if [ -d "${CACHE_ROOT}" ]; then
+#  ln -s "${CACHE_ROOT}/cookbooks" ${CHEF_BASEDIR}/cookbooks
+#  ln -s "${CACHE_ROOT}/roles" ${CHEF_BASEDIR}/roles
+#  ln -s "${CACHE_ROOT}/cache" ${CHEF_BASEDIR}/cache
+#fi
 
 # Configure chef
 for dir in roles cookbooks checksum cache cache/checksums; do
